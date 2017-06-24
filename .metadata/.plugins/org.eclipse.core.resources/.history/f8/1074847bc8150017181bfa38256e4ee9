@@ -1,0 +1,7 @@
+//入门程序
+Hello ${abc} !
+
+
+//javaBean
+${person.id?c}
+${person.name}

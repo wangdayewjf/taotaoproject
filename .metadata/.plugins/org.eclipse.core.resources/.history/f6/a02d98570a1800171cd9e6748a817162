@@ -1,0 +1,37 @@
+package com.taotao.cart.service;
+
+import java.util.List;
+
+import com.taotao.manager.pojo.Cart;
+
+public interface CartService {
+
+	/**
+	 * 添加商品到购物车中
+	 * 
+	 * @param userId
+	 * @param itemId
+	 * @param num
+	 */
+	void addItemForCart(Long userId, Long itemId, Integer num);
+
+	/**
+	 * 根据用户id查询该用户的购物车
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<Cart> queryCartByUserId(Long userId);
+
+	/**
+	 * 修改购物车商品数量
+	 * 
+	 * @param userId
+	 * @param itemId
+	 * @param num
+	 */
+	void updateNumByCart(Long userId, Long itemId, Integer num);
+
+	void deleteItemByCart(Long id, Long itemId);
+
+}

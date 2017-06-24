@@ -1,0 +1,6 @@
+1490673296697	Extract local variable 'response'
+1490673309427	Extract local variable 'map'
+1490673360485	Extract local variable 'results'
+1490673509495	Extract local variable 'hlist'
+1490675114852	Copy compilation unit
+1490748464218	Rename field 'httpSolrServer'

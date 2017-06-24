@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;taotao-portal/src/main/resources/resource/evn.properties&apos; to &apos;env.properties&apos;" description="Rename resource &apos;evn.properties&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/resource/evn.properties" name="env.properties" stamp="1490146311065" updateReferences="true"/>
+</session>

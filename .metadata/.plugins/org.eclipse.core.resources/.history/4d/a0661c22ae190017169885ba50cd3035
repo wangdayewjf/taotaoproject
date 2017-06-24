@@ -1,0 +1,9 @@
+package com.taotao.manager.job;
+
+import org.quartz.core.jmx.JobDetailSupport;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.QuartzJobBean;
+
+public class OrderCleanJob extends QuartzJobBean {
+
+}

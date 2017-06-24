@@ -1,0 +1,55 @@
+package com.taotao.search.message;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class ItemMessageListener implements MessageListener {
+
+	private static final ObjectMapper MAPPER = new ObjectMapper();
+
+	@Override
+	public void onMessage(Message message) {
+		// 判断消息类型是否是TextMessage类型
+		if (message instanceof TextMessage) {
+			// 强转
+			TextMessage textMessage = (TextMessage) message;
+
+			try {
+				// 从消息体中获取消息内容
+				// 内容是：{"itemId":1474391931,"type":"save"}
+				String json = textMessage.getText();
+
+				if (StringUtils.isNotBlank(json)) {
+					// 使用Jackson工具类，直接解析json数据
+					JsonNode jsonNode = MAPPER.readTree(json);
+					
+					//商品的操作符type
+					String type = jsonNode.get("type").asText();
+					
+					//商品的id
+					long itemId = jsonNode.get("itemId").asLong();
+
+					// 根据消息的内容消费消息
+					if("save".equals(type)){
+						//新增商品到索引库
+						
+						
+					}
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+}

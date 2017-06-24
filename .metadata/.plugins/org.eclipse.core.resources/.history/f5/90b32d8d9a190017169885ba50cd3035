@@ -1,0 +1,7 @@
+package com.taotao.order.service.impl;
+
+import com.taotao.order.service.OrderService;
+
+public class OrderServiceImpl implements OrderService {
+
+}

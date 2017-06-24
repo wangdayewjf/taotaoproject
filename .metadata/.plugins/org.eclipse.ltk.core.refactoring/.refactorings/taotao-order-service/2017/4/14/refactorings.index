@@ -1,0 +1,10 @@
+1491193575611	Delete element
+1491193622764	Rename package 'com.taotao.manager.redis'
+1491193634731	Rename package 'com.taotao.manager.redis.impl'
+1491193696271	Rename package 'com.taotao.order.service'
+1491357062889	Extract local variable 'orderItems'
+1491357162371	Extract local variable 'orderShipping'
+1491358032122	Extract local variable 'order'
+1491358090136	Extract local variable 'list'
+1491358130350	Extract local variable 'orderShipping'
+1491361837119	Extract local variable 'criteria'

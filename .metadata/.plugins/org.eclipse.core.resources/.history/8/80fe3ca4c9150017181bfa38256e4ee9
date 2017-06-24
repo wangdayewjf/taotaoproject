@@ -1,0 +1,36 @@
+//入门程序
+Hello ${abc} !
+
+
+//javaBean
+${person.id?c}
+${person.id}
+${person.name}
+
+//list
+<#list list as l>
+	${l_index+101}
+	${l.id}
+	${l.name}
+</#list>
+
+
+//map方式一
+<#list map?keys as k>
+	${map[k].id}
+	${map[k].name}
+</#list>
+
+方式二
+
+
+
+
+
+
+
+
+
+
+
+

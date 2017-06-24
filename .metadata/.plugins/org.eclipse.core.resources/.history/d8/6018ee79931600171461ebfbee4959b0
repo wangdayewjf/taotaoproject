@@ -1,0 +1,90 @@
+package com.taotao.cart.service.impl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taotao.cart.redis.RedisUtils;
+import com.taotao.cart.service.CartService;
+import com.taotao.manager.pojo.Cart;
+
+@Service
+public class CartServiceImpl implements CartService {
+
+	private static final ObjectMapper MAPPER = new ObjectMapper();
+
+	@Value("${TAOTAO_CART_KEY}")
+	private String TAOTAO_CART_KEY;
+
+	@Autowired
+	private RedisUtils redisUtils;
+
+	@Override
+	public void addItemForCart(Long userId, Long itemId, Integer num) {
+		// 根据用户id查询原来的购物车
+		List<Cart> list = this.queryCartByUserId(userId);
+
+		// 遍历购物车
+		Cart cart = null;
+		for (Cart c : list) {
+			// 判断新添加得商品在购物车中是否存在
+			if (c.getItemId() == itemId) {
+
+			}
+		}
+
+		// 如果购物车存在该商品，商品数量相加
+
+		// 如果购物车不存在该商品，添加商品
+
+		// 把修改后的购物车放到redis中
+
+	}
+
+	@Override
+	public List<Cart> queryCartByUserId(Long userId) {
+		// 从redis中查询购物车数据
+		// 使用用户id作为key，为了便于redis管理，需要添加前缀
+		String json = this.redisUtils.get(this.TAOTAO_CART_KEY + userId);
+
+		// 判断查询结果不为空
+		if (StringUtils.isNotBlank(json)) {
+			try {
+				// 解析购物车数据,把json数据转为List集合
+				List<Cart> list = MAPPER.readValue(json,
+						MAPPER.getTypeFactory().constructCollectionType(List.class, Cart.class));
+
+				// 返回购物车数据
+				return list;
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		// 如果查询结果为空，或者解析异常，不能返回null，可以返回空集合
+		return new ArrayList<Cart>();
+	}
+
+	public static void main(String[] args) {
+		int a = 128;
+		int b = 128;
+
+		long aa = 128l;
+		long bb = 128l;
+//		-128~127
+
+		System.out.println(a == b);
+		System.out.println(aa == bb);
+	}
+
+}

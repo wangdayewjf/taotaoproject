@@ -1,0 +1,26 @@
+package com.taotao.item.message;
+
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+public class ItemMessageListener implements MessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+		// 判断消息体是否是TextMessage
+		if (message instanceof TextMessage) {
+			// 强转
+			TextMessage textMessage = (TextMessage) message;
+
+			// 获取消息内容
+			String json = textMessage.getText();
+
+			// 消息内容进行解析
+
+			// 根据消息内容调用静态化方法
+		}
+
+	}
+
+}

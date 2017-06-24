@@ -1,0 +1,25 @@
+package com.taotao.search.service;
+
+import com.taotao.common.pojo.TaoResult;
+import com.taotao.manager.pojo.Item;
+
+public interface SearchService {
+
+	/**
+	 * 根据条件从索引库中分页查询商品
+	 * 
+	 * @param q
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	TaoResult<Item> search(String q, Integer page, Integer rows);
+
+	/**
+	 * 根据商品id，把商品放到索引库中
+	 * 
+	 * @param itemId
+	 */
+	void saveItem(long itemId);
+
+}

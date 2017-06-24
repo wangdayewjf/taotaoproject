@@ -1,0 +1,76 @@
+package com.taotao.order.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.taotao.manager.mapper.OrderItemMapper;
+import com.taotao.manager.mapper.OrderMapper;
+import com.taotao.manager.mapper.OrderShippingMapper;
+import com.taotao.manager.pojo.Order;
+import com.taotao.manager.pojo.OrderItem;
+import com.taotao.manager.pojo.OrderShipping;
+import com.taotao.order.redis.RedisUtils;
+import com.taotao.order.service.OrderService;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	private RedisUtils redisUtils;
+
+	@Autowired
+	private OrderMapper orderMapper;
+
+	@Autowired
+	private OrderItemMapper orderItemMapper;
+
+	@Autowired
+	private OrderShippingMapper orderShippingMapper;
+
+	@Value("${TAOTAO_ORDER_ID_KEY}")
+	private String TAOTAO_ORDER_ID_KEY;
+
+	@Override
+	public String saveOrder(Order order) {
+		// 创建订单号
+		// 需求：唯一的，可读性高，不要太长
+		// 创建方式：redis的唯一数+用户id
+		String orderId = "" + this.redisUtils.incr(this.TAOTAO_ORDER_ID_KEY) + order.getUserId();
+
+		// 保存订单数据
+		order.setOrderId(orderId);
+		order.setStatus(1);
+		order.setCreateTime(new Date());
+		order.setUpdateTime(order.getCreateTime());
+
+		this.orderMapper.insert(order);
+
+		// 保存订单商品数据
+		// 获取订单商品
+		List<OrderItem> orderItems = order.getOrderItems();
+		// 遍历list保存订单商品
+		for (OrderItem orderItem : orderItems) {
+			// 设置订单id
+			orderItem.setOrderId(orderId);
+
+			// 保存订单商品
+			this.orderItemMapper.insert(orderItem);
+		}
+
+		// 保存订单物流数据
+		// 获取订单物流数据
+		OrderShipping orderShipping = order.getOrderShipping();
+		// 设置订单号
+		orderShipping.setOrderId(orderId);
+		// 保存订单物流
+		this.orderShippingMapper.insert(orderShipping);
+
+		// 返回订单id
+		return orderId;
+	}
+
+}

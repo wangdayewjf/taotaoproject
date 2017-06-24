@@ -1,0 +1,5 @@
+package com.taotao.manager.job;
+
+public class OrderJob {
+
+}

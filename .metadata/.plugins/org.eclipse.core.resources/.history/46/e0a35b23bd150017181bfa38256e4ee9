@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 配置solrj的单机版连接对象 -->
+	<bean class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+		<!-- 配置solr服务单机版地址 -->
+<!-- 		<constructor-arg name="baseURL" value="${solrj.baseURL}" /> -->
+		<constructor-arg name="baseURL" type="String" value="${solrj.baseURL}" />
+	</bean>
+
+	<!-- 配置solrj的集群版连接对象 -->
+	<bean class="org.apache.solr.client.solrj.impl.CloudSolrServer">
+		<!-- 配置集群版的zookeeper的连接地址 -->
+		<constructor-arg name="zkHost" value="${cloud.zkHost}" />
+		<!-- 配置集群的collection名字 -->
+		<property name="defaultCollection" value="${cloud.collection}" />
+	</bean>
+
+</beans>
+        

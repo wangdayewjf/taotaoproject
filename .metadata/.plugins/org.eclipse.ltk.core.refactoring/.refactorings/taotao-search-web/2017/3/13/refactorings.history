@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;total&apos; from expression &apos;taoResult.getTotal()&apos;&#x0D;&#x0A;- Original project: &apos;taotao-search-web&apos;&#x0D;&#x0A;- Variable name: &apos;total&apos;&#x0D;&#x0A;- Destination method: &apos;com.taotao.search.controller.SearchController.search()&apos;&#x0D;&#x0A;- Variable expression: &apos;taoResult.getTotal()&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;total&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src\/main\/java&lt;com.taotao.search.controller{SearchController.java" name="total" replace="true" selection="1679 0" stamp="1490754235216" version="1.0"/>
+</session>

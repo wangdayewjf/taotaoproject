@@ -1,0 +1,120 @@
+package com.taotao.search.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.taotao.common.pojo.TaoResult;
+import com.taotao.manager.mapper.ItemMapper;
+import com.taotao.manager.pojo.Item;
+import com.taotao.search.service.SearchService;
+
+@Service
+public class SearchServiceImpl implements SearchService {
+
+	@Autowired
+	private ItemMapper itemMapper;
+
+	@Autowired
+	private CloudSolrServer cloudSolrServer;
+
+	@Override
+	public TaoResult<Item> search(String q, Integer page, Integer rows) {
+		// 创建查询对象
+		SolrQuery solrQuery = new SolrQuery();
+
+		// 设置查询语句
+		if (StringUtils.isBlank(q)) {
+			solrQuery.setQuery("*:* AND item_status:1");
+		} else {
+			solrQuery.setQuery("item_title:" + q + " AND item_status:1");
+		}
+
+		// 设置分页
+		solrQuery.setStart((page - 1) * rows);
+		solrQuery.setRows(rows);
+
+		// 设置高亮
+		// 开启高亮
+		solrQuery.setHighlight(true);
+		// 设置高亮字段
+		solrQuery.addHighlightField("item_title");
+		// 设置高亮前缀
+		solrQuery.setHighlightSimplePre("<font color='yellow'>");
+		// 设置高亮后缀
+		solrQuery.setHighlightSimplePost("</font>");
+
+		try {
+			// 执行查询
+			QueryResponse response = this.cloudSolrServer.query(solrQuery);
+
+			// 获取高亮数据
+			// {
+			// "12": {"product_name": ["表情笑脸金属门]},
+			// "13": {"product_name": ["家天下彩色LOVE]}
+			// }
+			Map<String, Map<String, List<String>>> map = response.getHighlighting();
+
+			// 获取结果集
+			SolrDocumentList results = response.getResults();
+
+			// 遍历结果集
+			// 声明list容器，存放商品
+			List<Item> itemList = new ArrayList<>();
+			for (SolrDocument solrDocument : results) {
+
+				// 解析高亮数据
+				List<String> hlist = map.get(solrDocument.get("id").toString()).get("item_title");
+
+				// 封装到list
+				Item item = new Item();
+				// 商品id
+				item.setId(Long.parseLong(solrDocument.get("id").toString()));
+				// 商品title
+				if (hlist != null && hlist.size() > 0) {
+					item.setTitle(hlist.get(0));
+				} else {
+					item.setTitle(solrDocument.get("item_title").toString());
+				}
+				// 商品price
+				item.setPrice(Long.parseLong(solrDocument.get("item_price").toString()));
+				// 商品image
+				item.setImage(solrDocument.get("item_image").toString());
+				// 商品cid
+				item.setCid(Long.parseLong(solrDocument.get("item_cid").toString()));
+				// 商品status，status没有，因为没有设置status的存储
+
+				// 把封装好的商品放到容器中
+				itemList.add(item);
+
+			}
+
+			// 封装返回对象taoResult
+			TaoResult<Item> taoResult = new TaoResult<Item>(results.getNumFound(), itemList);
+
+			return taoResult;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// 如果没有查到数据或者解析异常，返回null
+		return null;
+	}
+
+	@Override
+	public void saveItem(long itemId) {
+
+	}
+
+}
