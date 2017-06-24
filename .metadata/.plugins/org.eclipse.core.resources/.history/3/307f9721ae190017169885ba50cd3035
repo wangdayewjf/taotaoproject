@@ -1,7 +1,0 @@
-package com.taotao.manager.job;
-
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-
-public class OrderCleanJob extends JobDetailFactoryBean {
-
-}

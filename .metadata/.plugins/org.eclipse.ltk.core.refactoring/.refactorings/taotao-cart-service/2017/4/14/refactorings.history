@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Extract local variable &apos;list&apos; from expression &apos;this.queryCartByUserId(userId)&apos;&#x0D;&#x0A;- Original project: &apos;taotao-cart-service&apos;&#x0D;&#x0A;- Variable name: &apos;list&apos;&#x0D;&#x0A;- Destination method: &apos;com.taotao.cart.service.impl.CartServiceImpl.updateNumByCart()&apos;&#x0D;&#x0A;- Variable expression: &apos;this.queryCartByUserId(userId)&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;list&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src\/main\/java&lt;com.taotao.cart.service.impl{CartServiceImpl.java" name="list" replace="true" selection="3480 0" stamp="1491181228061" version="1.0"/>
-</session>

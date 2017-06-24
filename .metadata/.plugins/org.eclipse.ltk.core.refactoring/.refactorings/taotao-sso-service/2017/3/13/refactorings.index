@@ -1,5 +1,0 @@
-1490577846563	Rename package 'com.taotao.manager.redis.impl'
-1490577854164	Rename package 'com.taotao.manager.redis'
-1490582153613	Extract local variable 'json'
-1490582238527	Extract local variable 'user'
-1490663327983	Extract local variable 'result'
